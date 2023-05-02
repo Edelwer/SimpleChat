@@ -6,16 +6,19 @@ import java.awt.*;
 public class SimpleChatClient {
     private JTextArea outgoing;
     private JTextArea incoming;
+    private JButton sendButton;
     public void go(){
         JScrollPane scroller = createScrollableTextArea();
 
         outgoing = new JTextArea(10,30);
         outgoing.setLineWrap(true);
         outgoing.setWrapStyleWord(true);
+        sendButton = new JButton("Send");
 
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
         mainPanel.add(BorderLayout.NORTH, scroller);
+        mainPanel.add(sendButton);
 
         JFrame frame = new JFrame("Chat Client");
         frame.getContentPane().add(BorderLayout.CENTER,mainPanel);
