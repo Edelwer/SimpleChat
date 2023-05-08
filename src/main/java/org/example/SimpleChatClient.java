@@ -13,11 +13,15 @@ public class SimpleChatClient {
         outgoing = new JTextArea(10,30);
         outgoing.setLineWrap(true);
         outgoing.setWrapStyleWord(true);
+        JScrollPane scroller1 = new JScrollPane(outgoing);
+        scroller1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+
         sendButton = new JButton("Send");
 
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
         mainPanel.add(BorderLayout.NORTH, scroller);
+        mainPanel.add(BorderLayout.SOUTH, scroller1);
         mainPanel.add(sendButton);
 
         JFrame frame = new JFrame("Chat Client");
