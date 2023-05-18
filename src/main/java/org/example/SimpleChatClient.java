@@ -9,6 +9,8 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.nio.channels.Channels;
 import java.nio.channels.SocketChannel;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -19,6 +21,7 @@ public class SimpleChatClient {
     private JTextArea incoming;
     private JButton sendButton;
     private BufferedReader reader;
+    private PrintWriter writer;
     private InetAddress clientIP;
 
     public void go(){
@@ -63,11 +66,18 @@ public class SimpleChatClient {
             clientIP = InetAddress.getLocalHost();
 
             reader = new BufferedReader(Channels.newReader(socketChannel, UTF_8));
+            writer = new PrintWriter(Channels.newWriter(socketChannel, UTF_8));
 
             System.out.println("Network established");
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    private void sendMessage(){
+        writer.println(outgoing.getText().substring(0,outgoing.getText().length()- 1));
+        writer.flush();
+        outgoing.setText("");
+        outgoing.requestFocus();
     }
 
 }
