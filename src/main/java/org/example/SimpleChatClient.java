@@ -2,6 +2,8 @@ package org.example;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -34,6 +36,7 @@ public class SimpleChatClient {
         scroller1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
         sendButton = new JButton("Send");
+        //sendButton.addActionListener(e -> sendMessage());
 
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
@@ -46,6 +49,7 @@ public class SimpleChatClient {
         frame.setSize(750,700);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        outgoing.addKeyListener(new myKeyAdapter());
     }
 
     private JScrollPane createScrollableTextArea(){
@@ -78,6 +82,22 @@ public class SimpleChatClient {
         writer.flush();
         outgoing.setText("");
         outgoing.requestFocus();
+    }
+    public class myKeyAdapter extends KeyAdapter {
+        private boolean isShift = false;
+        @Override
+        public void keyReleased(KeyEvent e) {
+            if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                if (isShift){
+                    outgoing.append("\n");
+                }else{
+                    //sendMessage();
+                }
+            }
+            if (e.getKeyCode() == KeyEvent.VK_SHIFT){
+                isShift = false;
+            }
+        }
     }
 
 }
