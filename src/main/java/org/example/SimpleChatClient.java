@@ -1,6 +1,7 @@
 package org.example;
 
 import javax.swing.*;
+import javax.swing.text.BadLocationException;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -24,6 +25,7 @@ public class SimpleChatClient {
     private JButton sendButton;
     private BufferedReader reader;
     private PrintWriter writer;
+    private ExecutorService executor;
     private InetAddress clientIP;
 
     public void go(){
@@ -72,6 +74,9 @@ public class SimpleChatClient {
             reader = new BufferedReader(Channels.newReader(socketChannel, UTF_8));
             writer = new PrintWriter(Channels.newWriter(socketChannel, UTF_8));
 
+            executor = Executors.newSingleThreadExecutor();
+            executor.execute(new IncomingReader());
+
             System.out.println("Network established");
         } catch (IOException e) {
             e.printStackTrace();
@@ -83,6 +88,22 @@ public class SimpleChatClient {
         outgoing.setText("");
         outgoing.requestFocus();
     }
+
+    public class IncomingReader implements Runnable{
+        @Override
+        public void run() {
+            String message;
+            try {
+                while ((message = reader.readLine()) != null) {
+                    System.out.println("read " + message);
+                    incoming.append(message + "\n");
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     public class myKeyAdapter extends KeyAdapter {
         private boolean isShift = false;
         @Override
