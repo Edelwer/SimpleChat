@@ -1,15 +1,15 @@
 package org.example;
 
-/**
- * Hello world!
- *
- */
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 public class App 
 {
     public static void main( String[] args )
     {
         System.out.println( "=====START=====" );
-        new SimpleChatClient().go();
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.execute(() -> new SimpleChatClient().go());
         new SimpleChatServer().go();
     }
 }
