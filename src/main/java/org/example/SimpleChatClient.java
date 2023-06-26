@@ -23,6 +23,7 @@ public class SimpleChatClient {
     private JTextArea outgoing;
     private JTextArea incoming;
     private JButton sendButton;
+    private JButton reconnectButton;
     private BufferedReader reader;
     private PrintWriter writer;
     private ExecutorService executor;
@@ -40,11 +41,15 @@ public class SimpleChatClient {
         sendButton = new JButton("Send");
         //sendButton.addActionListener(e -> sendMessage());
 
+        reconnectButton = new JButton("Reconnect");
+        reconnectButton.addActionListener(e -> setUpNetworking());
+
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
         mainPanel.add(BorderLayout.NORTH, scroller);
         mainPanel.add(BorderLayout.SOUTH, scroller1);
         mainPanel.add(sendButton);
+        mainPanel.add(reconnectButton);
 
         JFrame frame = new JFrame("Chat Client");
         frame.getContentPane().add(BorderLayout.CENTER,mainPanel);
