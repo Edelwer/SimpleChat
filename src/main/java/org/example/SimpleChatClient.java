@@ -28,7 +28,6 @@ public class SimpleChatClient {
     private PrintWriter writer;
     private ExecutorService executor;
     private InetAddress clientIP;
-
     public void go(){
         JScrollPane scroller = createScrollableTextArea();
 
@@ -48,8 +47,9 @@ public class SimpleChatClient {
         mainPanel.setLayout(new BorderLayout());
         mainPanel.add(BorderLayout.NORTH, scroller);
         mainPanel.add(BorderLayout.SOUTH, scroller1);
-        mainPanel.add(sendButton);
         mainPanel.add(reconnectButton);
+
+        setUpNetworking();
 
         JFrame frame = new JFrame("Chat Client");
         frame.getContentPane().add(BorderLayout.CENTER,mainPanel);
@@ -117,7 +117,7 @@ public class SimpleChatClient {
                 if (isShift){
                     outgoing.append("\n");
                 }else{
-                    //sendMessage();
+                    sendMessage();
                 }
             }
             if (e.getKeyCode() == KeyEvent.VK_SHIFT){
